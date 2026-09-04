@@ -1,25 +1,27 @@
-<h2 align="center"><b>OpenBoard</b></h2>
-<h4 align="center">100% FOSS keyboard, based on AOSP.</h4>
-<p align="center"><img src='fastlane/metadata/android/en-US/images/icon.png' height='128'></p>
-<p align="center"><a href="https://github.com/openboard-team/openboard/actions/workflows/android-build.yml"><img src="https://img.shields.io/github/workflow/status/openboard-team/openboard/Build" alt="GitHub Workflow Status"></a>
-<a href="https://github.com/openboard-team/openboard/releases"><img src="https://img.shields.io/github/v/release/openboard-team/openboard" alt="GitHub release (latest by date)"></a>
-<a href="https://github.com/openboard-team/openboard/releases"><img src="https://img.shields.io/github/release-date/openboard-team/openboard" alt="GitHub Release Date"></a>
-<a href="https://github.com/openboard-team/openboard/commits/master"><img src="https://img.shields.io/github/commits-since/openboard-team/openboard/latest" alt="GitHub commits since latest release (by date)"></a>
-<a href="https://hosted.weblate.org/engage/openboard/"><img src="https://hosted.weblate.org/widgets/openboard/-/openboard/svg-badge.svg" alt="Translation status"></a>
-<a href="https://matrix.to/#/#openboard:matrix.org?via=matrix.org"><img src="https://img.shields.io/matrix/openboard:matrix.org" alt="Matrix"></a></p>
-<p align="center"><a href='https://f-droid.org/packages/org.dslul.openboard.inputmethod.latin'><img src='https://fdroid.gitlab.io/artwork/badge/get-it-on.png' alt='Get it on F-Droid' height='60'></a>
-<a href='https://play.google.com/store/apps/details?id=org.dslul.openboard.inputmethod.latin&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png' height='60'/></a></p>  
+<h2 align="center"><b>OpenBoard-HB</b></h2>
+<h4 align="center">A fork of OpenBoard, driven by head tracking.</h4>
 
-## Community chat
-Join our [matrix] channel [here](https://matrix.to/#/#openboard:matrix.org?via=matrix.org).
-
-<img src="images/matrix_qr.png" alt="Matrix QR Code" height="128">
+> **This is a fork, not upstream OpenBoard.**
+>
+> OpenBoard-HB is maintained by the [Continuous Path Foundation](https://github.com/Continuous-Path)
+> as the companion keyboard for [HeadBoard](https://github.com/Continuous-Path/HeadBoard),
+> a head-tracking accessibility app. It accepts injected pointer and key events over
+> broadcast Intents so someone who cannot touch the screen can still type and swipe on it.
+>
+> For the original project — its releases, F-Droid and Play Store listings, translation
+> project and community chat — go to
+> [openboard-team/openboard](https://github.com/openboard-team/openboard). Those channels
+> support upstream, not this fork; please do not send them issues about OpenBoard-HB.
+>
+> Licence: **GPL-3.0**, inherited from OpenBoard and, beneath it, AOSP LatinIME. It cannot
+> be relicensed. See [LICENSE](./LICENSE), [NOTICE](./NOTICE) for the full pedigree, and
+> [CHANGES.md](./CHANGES.md) for what this fork changed, as GPL-3.0 §5(a) requires.
 
 ## Contribute
 
-### Translate OpenBoard
-You can help in translating OpenBoard in your language through our [Weblate project](https://hosted.weblate.org/engage/openboard/).
-[![Translation status](https://hosted.weblate.org/widgets/openboard/-/openboard/horizontal-blue.svg)](https://hosted.weblate.org/engage/openboard/)
+Issues and pull requests for **this fork** are welcome here; see
+[CONTRIBUTING.md](./CONTRIBUTING.md). Changes that belong upstream are better sent
+upstream.
 
 ### Create a dictionary
 You can use [this tool](https://github.com/remi0s/aosp-dictionary-tools) to create a dictionary. You need a wordlist, as described [here](dictionaries/sample.combined). The output .dict file must be put in [res/raw](app/src/main/res/raw), its wordlist in [dictionnaries](/dictionaries).
@@ -72,7 +74,7 @@ Generate the new version of [KeyboardTextsTable.java](app/src/main/java/org/dslu
 - [LineageOS](https://review.lineageos.org/admin/repos/LineageOS/android_packages_inputmethods_LatinIME)
 - [Simple Keyboard](https://github.com/rkkr/simple-keyboard)
 - [Indic Keyboard](https://gitlab.com/indicproject/indic-keyboard)
-- Our [contributors](https://github.com/openboard-team/openboard/graphs/contributors)
+- Upstream OpenBoard's [contributors](https://github.com/openboard-team/openboard/graphs/contributors)
 
 # Building (this fork)
 
