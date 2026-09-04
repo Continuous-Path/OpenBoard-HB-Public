@@ -1,0 +1,125 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+
+// Release signing — the shared Continuous Path team key (same key as JustType and
+// HeadBoard; JUSTTYPE_* names kept for consistency with that setup). A machine set
+// up once via JustType's `./jt signing-setup` has the keystore at
+// ~/.justtype/justtype-release.jks and the password in the macOS Keychain (service
+// 'justtype-signing'). CI overrides via JUSTTYPE_KEYSTORE_FILE +
+// JUSTTYPE_KEYSTORE_PASSWORD/JUSTTYPE_KEY_PASSWORD gradle properties (repo secrets).
+// An unconfigured machine produces an UNSIGNED release rather than falling back to
+// another key: this build used to fall back to the committed AOSP platform test key,
+// whose private half is public, so a locally built "release" was forgeable.
+// (Gradle 7.2: no providers.exec, hence the classic .execute() keychain lookup.)
+def releaseStoreFile = file(findProperty('JUSTTYPE_KEYSTORE_FILE')
+    ?: "${System.getProperty('user.home')}/.justtype/justtype-release.jks")
+def keychainPassword = {
+    if (!System.getProperty('os.name').toLowerCase().contains('mac')) return null
+    try {
+        def proc = ['security', 'find-generic-password', '-s', 'justtype-signing', '-w'].execute()
+        proc.waitFor()
+        proc.exitValue() == 0 ? proc.inputStream.text.trim() : null
+    } catch (Exception ignored) {
+        null
+    }
+}
+def releaseStorePassword = findProperty('JUSTTYPE_KEYSTORE_PASSWORD') ?: keychainPassword()
+// PKCS12 keystores use a single password for store and key.
+def releaseKeyPassword = findProperty('JUSTTYPE_KEY_PASSWORD') ?: releaseStorePassword
+def hasReleaseSigning = releaseStoreFile.exists() && releaseStorePassword != null && releaseKeyPassword != null
+
+android {
+//    namespace 'org.dslul.openboard'
+
+    // Release signing — the shared Continuous Path team key, same one HeadBoard and
+    // JustType use. Supplied by CI as JUSTTYPE_* gradle properties, or locally by a
+    // machine set up through JustType's `./jt signing-setup`. When it is absent the
+    // release APK is left UNSIGNED on purpose: this build previously fell back to the
+    // committed AOSP platform test key, whose private half is public, which meant a
+    // locally built "release" was signed with a key anyone can forge.
+    // (Gradle 7.2 here, so no providers.exec — the Keychain lookup HeadBoard does is
+    // not available; pass the password as a property for a local signed build.)
+    signingConfigs {
+        release {
+            if (hasReleaseSigning) {
+                storeFile releaseStoreFile
+                storePassword releaseStorePassword
+                keyAlias 'justtype'
+                keyPassword releaseKeyPassword
+            }
+        }
+        release {
+            if (hasReleaseSigning) {
+                storeFile releaseStoreFile
+                storePassword releaseStorePassword
+                keyAlias 'justtype'
+                keyPassword releaseKeyPassword
+            }
+        }
+    }
+    compileSdkVersion 33
+
+    defaultConfig {
+        applicationId "org.dslul.openboard.inputmethod.latin"
+        minSdkVersion 19
+        //noinspection ExpiredTargetSdkVersion
+        targetSdkVersion 31
+        versionCode 19
+        versionName '1.4.6'
+    }
+
+    buildTypes {
+        debug {
+            minifyEnabled false
+            debuggable true
+            jniDebuggable true
+            renderscriptDebuggable true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        release {
+            minifyEnabled true
+            debuggable false
+            jniDebuggable false
+            renderscriptDebuggable false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            // Deliberately unsigned when unconfigured — see the note above.
+            if (hasReleaseSigning) signingConfig signingConfigs.release
+        }
+        release_unsigned {
+            minifyEnabled true
+            debuggable false
+            jniDebuggable false
+            renderscriptDebuggable false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+
+    externalNativeBuild {
+        ndkBuild {
+            path 'src/main/jni/Android.mk'
+        }
+    }
+
+    lintOptions {
+        abortOnError false
+    }
+
+    ndkVersion '21.3.6528147'
+    androidResources {
+        noCompress 'dict'
+    }
+}
+
+dependencies {
+    implementation 'com.google.code.findbugs:jsr305:3.0.2'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'androidx.recyclerview:recyclerview:1.2.1' // Replaces recyclerview:1.0.0 included by above dependency
+    implementation 'androidx.core:core-ktx:1.7.0'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation 'androidx.viewpager2:viewpager2:1.0.0'
+}
+repositories {
+    mavenCentral()
+}

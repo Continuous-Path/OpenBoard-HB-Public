@@ -1,0 +1,89 @@
+OpenBoard-HB
+Copyright 2026 Continuous Path Foundation
+
+This is a fork of OpenBoard, maintained by the Continuous Path Foundation as the
+companion keyboard for HeadBoard. It is licensed under the GNU General Public
+License version 3 — see LICENSE.
+
+  Project home:  https://github.com/Continuous-Path/OpenBoard-HB
+  Security and licensing contact: security@continuouspath.org
+
+================================================================================
+PEDIGREE — AND WHY THIS CANNOT BE RELICENSED
+================================================================================
+
+Three layers, each adding obligations to the one beneath:
+
+  1. Android Open Source Project — LatinIME          Apache License 2.0
+     Copyright The Android Open Source Project
+     233 of the Java/Kotlin sources and 259 of the native sources in this tree
+     still carry AOSP's Apache-2.0 headers.
+
+  2. OpenBoard 1.4.6                                 GPL-3.0
+     Copyright the OpenBoard contributors
+     https://github.com/openboard-team/openboard
+     OpenBoard's own additions — the Kotlin rewrites, clipboard history,
+     theming and much else — are GPL-3.0.
+
+  3. This fork                                       GPL-3.0
+     Copyright 2026 Continuous Path Foundation
+
+The work as a whole is GPL-3.0 and CANNOT be relicensed. The Apache-2.0 headers
+on individual AOSP files are not an escape hatch: OpenBoard's contributions are
+held by many authors who never signed an assignment, so no one party can change
+the licence of the combination.
+
+GPL-3.0 Section 5(a) requires that modifications be stated. See CHANGES.md.
+
+================================================================================
+THIRD-PARTY COMPONENTS
+================================================================================
+
+m17n database — Bengali Unijoy keyboard layouts   LGPL-2.1-or-later
+  Copyright (C) 2005, 2008 National Institute of Advanced Industrial Science
+  and Technology (AIST), Registration Number H15PRO112
+  app/src/main/res/xml/rowkeys_bengali_unijoy{1,2,3}.xml
+  LGPL-2.1 is compatible with GPL-3.0; the files carry their own headers.
+
+CyanogenMod strings                                Apache License 2.0
+  Copyright (C) 2015 The CyanogenMod Project
+  app/src/main/res/values*/cm_strings.xml
+
+Unicode Character Database — emoji data            Unicode Terms of Use
+  Copyright (C) Unicode, Inc.  https://www.unicode.org/terms_of_use.html
+  tools/make-emoji-keys/src/main/resources/emoji/ucd/**/emoji-test.txt
+
+AOSP binary dictionaries and wordlists             Apache License 2.0
+  Copyright The Android Open Source Project
+  app/src/main/res/raw/*.dict and dictionaries/*.combined.gz
+
+Application icon
+  Credited upstream to Marco TLS (marcotls.eu). See "Unresolved" below.
+
+================================================================================
+UNRESOLVED — INHERITED FROM UPSTREAM
+================================================================================
+
+These are not introduced by this fork, but they travel with it and are recorded
+here honestly rather than left for a downstream user to discover:
+
+  * app/src/main/jniLibs/*/libjni_latinimegoogle.so — four prebuilt native
+    binaries with no source-provenance record. GPL-3.0 requires corresponding
+    source for shipped binaries. They appear to be builds of the JNI sources in
+    this same tree, but that is unverified. Either rebuild them from source or
+    remove them; JniLibName.kt already falls back to jni_latinime.
+  * tools/make-emoji-keys/src/main/kotlin/com/majeur/** — 18 Kotlin files with
+    no copyright header or stated licence.
+  * The application icon's licence is not stated, only its author credited.
+  * dictionaries/ ships no licence text for the wordlists it contains.
+  * tools/*/bin/** contains checked-in build output (97 files) that should not
+    be in source control.
+
+================================================================================
+BUILD DEPENDENCIES
+================================================================================
+
+androidx.legacy:legacy-support-v4, androidx.recyclerview, androidx.core-ktx,
+androidx.viewpager2 — Apache License 2.0, Copyright The Android Open Source Project
+com.google.code.findbugs:jsr305 — BSD 3-Clause
+Kotlin standard library — Apache License 2.0, Copyright JetBrains s.r.o.

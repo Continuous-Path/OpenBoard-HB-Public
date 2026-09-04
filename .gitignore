@@ -1,0 +1,28 @@
+
+# IntelliJ
+*.iml
+.idea/
+
+# Gradle files
+.gradle/
+build/
+
+# Local configuration file (sdk path, etc)
+local.properties
+
+# Log/OS Files
+*.log
+
+# OSX
+.DS_Store
+
+# Project
+gameface-realease/
+.kotlin/
+
+# Claude Code personal config
+CLAUDE.local.md
+
+# VS Code
+.vscode/
+*.code-workspace
